@@ -1,1 +1,32 @@
-runtime : python39
+# Filename: deployment.yaml
+
+resources:
+  - name: farmfield
+    type: compute.v1.instance
+    properties:
+      zone: us-central1-a
+      machineType: zones/us-central1-a/machineTypes/n1-standard-2
+      disks:
+        - deviceName: boot
+          type: PERSISTENT
+          boot: true
+          autoDelete: true
+          initializeParams:
+            diskSizeGb: 10
+            sourceImage: projects/debian-cloud/global/images/debian-10-buster-v20210429
+      networkInterfaces:
+        - network: global/networks/default
+          accessConfigs:
+            - name: External NAT
+              type: ONE_TO_ONE_NAT
+      serviceAccounts:
+        - email: 214586777894-compute@developer.gserviceaccount.com
+          scopes:
+            - https://www.googleapis.com/auth/cloud-platform
+      metadata:
+        items:
+          - key: startup-script
+            value: |
+              #!/bin/bash
+              echo "Starting my Python application..."
+              python3 main.py
