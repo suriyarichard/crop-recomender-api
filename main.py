@@ -25,6 +25,9 @@ data['label'] = le.transform(data.label)
 label_mapping = dict(zip(le.classes_, le.transform(le.classes_)))
 model = keras.models.load_model('Crop_Model.h5')
 
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+
 
 def get_crop_name(val):
   for key, value in label_mapping.items():
@@ -80,3 +83,5 @@ async def value_error_exception_handler(request: Request, exc: ValueError):
 
 if __name__ == "__main__":
     uvicorn.run(app)
+
+
