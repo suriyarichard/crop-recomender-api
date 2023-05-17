@@ -14,7 +14,7 @@ tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
 
 
-app = FastAPI()
+app = FastAPI('0.0.0.0',8000)
 
 data = pd.read_csv('dataset/Crop_recommendation.csv')
 
